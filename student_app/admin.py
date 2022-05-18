@@ -1,6 +1,7 @@
+from symtable import Class
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from student_app.models import CustomUser, Course, Student, Staff
+from student_app.models import CustomUser, Classes, Student, Staff, Scores, Term, Subject, SessionYearModel
 # Register your models here.
 
 
@@ -14,8 +15,12 @@ class UserModel(UserAdmin):
     pass
 
 admin.site.register(CustomUser, UserAdmin)
-admin.site.register(Course)
+admin.site.register(Classes)
 admin.site.register(Student)
 admin.site.register(Staff)
+admin.site.register(Scores)
+admin.site.register(Term)
+admin.site.register(Subject)
+admin.site.register(SessionYearModel)
 
 

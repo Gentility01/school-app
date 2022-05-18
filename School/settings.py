@@ -65,6 +65,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'student_app.context_processor.class_context',
+                'student_app.context_processor.term_context'
             ],
         },
     },
@@ -136,5 +138,8 @@ STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 AUTH_USER_MODEL = 'student_app.CustomUser'
+AUTHENTICATION_BACKENDS = (
+    ('django.contrib.auth.backends.ModelBackend'),
+)
 
-AUTHENTICATION_BACKENDS = ['student_app.EmailBackEnd.EmailBackEnd'] # HERE EmailBackend is in student_managementapp and the second one is the class in EmailBackend file
+# AUTHENTICATION_BACKENDS = ['student_app.EmailBackEnd.EmailBackEnd'] # HERE EmailBackend is in student_managementapp and the second one is the class in EmailBackend file

@@ -31,9 +31,6 @@ Manage Subject
             </div>
 
 
-            
-
-
             <div class="dropdown show d-inline" style="margin-left:10em; ">
               <a class=" btn-sm btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -82,6 +79,7 @@ Manage Subject
           <!-- /.card-header -->
           <div class="card-body table-responsive p-0">
             <table class="table table-hover text-nowrap">
+            {% if subjects %}  
               <thead>
                 <tr>
                   <th>ID</th>
@@ -91,7 +89,7 @@ Manage Subject
                   <th>Term</th>
                   <th>Created_at</th>
                   <th>Updated at</th>
-                  <th>Action</th>
+                  <th>Actions</th>
 
                 </tr>
               </thead>
@@ -112,6 +110,9 @@ Manage Subject
                 </tr>
                 {% endfor %}
               </tbody>
+              {% else %}
+              <h3 class="display-4">There is no subject in this class yet...</h3>
+              {% endif %}  
             </table>
           </div>
           <!-- /.card-body -->

@@ -15,6 +15,22 @@ Manage Student
               <div class="card-header">
                 <h3 class="card-title">Student Details</h3>
 
+                <div class="dropdown show d-inline" style="margin-left:10em;">
+                  <a class="btn-sm btn-secondary dropdown-toggle " href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Manage Student by class
+                  </a>
+                
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    {% for class in classes %}
+                    <a class="dropdown-item" href="{{ class.get_students_url}}"> {{ class.class_name }}</a>
+                    {% endfor %}
+                    <!-- <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a> -->
+                  </div>
+                </div>
+
+                
+
                 <div class="card-tools">
                   <div class="input-group input-group-sm" style="width: 150px;">
                     <input type="text" name="table_search" class="form-control float-right" placeholder="Search">

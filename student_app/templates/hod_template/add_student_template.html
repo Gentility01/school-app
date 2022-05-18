@@ -68,10 +68,10 @@
                   </div>
 
                    <div class="form-group">
-                    <label>Course</label>
-                    <select  class="form-control" name="course">
-                        {% for course in courses %}
-                          <option value="{{course.id}}">{{course.course_name}}</option>
+                    <label>Class</label>
+                    <select  class="form-control" name="classes">
+                        {% for classes in student_class %}
+                          <option value="{{classes.id}}">{{classes.class_name}}</option>
                         
                         {% endfor %}
                     </select>

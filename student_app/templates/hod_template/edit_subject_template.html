@@ -35,7 +35,7 @@
                         
               <!-- /.card-header -->
               <!-- form start -->
-              <form role="form" action="/edit_subject_save" method="post">
+              <form role="form" action="/edit_subject_save/" method="post">
               {% csrf_token %}
                 <div class="card-body">
                   <div class="form-group">
@@ -47,10 +47,22 @@
                   </div>
 
                   <div class="form-group">
-                    <label>Course</label>
-                    <select  class="form-control" name="course">
-                        {% for course in courses %}
-                          <option value="{{course.id}}" {% if course.id == subject.course_id.id %} selected {% endif %}>{{course.course_name}}</option>
+                    <label>Classes</label>
+                    <select  class="form-control" name="classes">
+                        {% for class in student_class %}
+                          <option value="{{class.id}}" {% if class.id == subject.class_id.id %} selected {% endif %}>{{class.class_name}}</option>
+                        
+                        {% endfor %}
+                    </select>
+                  </div>
+
+                  
+                  <div class="form-group">
+                    <label>Term</label>
+                    <select  class="form-control" name="classes">
+                        {% for term in terms %}
+                        
+                          <option value="{{term.id}}" {% if term.id == subject.term_id.id %} selected {% endif %}>{{term.terms}}</option>
                         
                         {% endfor %}
                     </select>

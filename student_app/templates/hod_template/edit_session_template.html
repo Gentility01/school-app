@@ -1,6 +1,6 @@
 {% extends 'hod_template/base_templates.html' %}
 {% block page_title %}
- Add Course
+ Edit Session| Session ID : {{get_session.id}}
 {% endblock page_title %}
 {% block main_content %}
         <!-- Main content -->
@@ -14,7 +14,7 @@
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Add Staff</h3>
+                <h3 class="card-title">Edit Session</h3>
               </div>
 
               
@@ -35,28 +35,35 @@
                         
               <!-- /.card-header -->
               <!-- form start -->
-              <form role="form" action="/add_course_save" method="post">
+              <form role="form" action="/edit_session_save/" method="post">
               {% csrf_token %}
                 <div class="card-body">
                   <div class="form-group">
-                    {% comment %} <label>Email address</label>
-                    <input type="email" class="form-control" name="email" placeholder="Enter email">
-                  </div>
-                  <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" class="form-control" name="password" placeholder="Password">
-                  </div>
-
-                  <div class="form-group">
-                    <label>First Name</label>
-                    <input type="text" class="form-control" name="first_name" placeholder="First Name">
-                  </div> {% endcomment %}
-
+            
                   
-                  <div class="form-group">
-                    <label>Course Name</label>
-                    <input type="text" class="form-control" name="course" placeholder="Enter Course">
+                  {% comment %} <div class="form-group">
+                     <label>Session start year</label>
+                    <input type="text" class="form-control" name="start_year" placeholder="Enter Class" value="{{get_session.session_start_year}}">
+                    <input type="hidden"  name="session_id"  value="{{ get_session.id }}">
                   </div>
+
+                  <div class="form-group">
+                    <label>Session end year</label>
+                    <input type="text" class="form-control" name="end_year" placeholder="Enter Class" value="{{get_session.session_end_year}}">
+                    <input type="hidden"  name="session_id"  value="{{ get_session.id }}">
+                  </div>  {% endcomment %}
+
+                  <div class="form-group">
+                    <label>Session Start Year </label>
+                    <input type="date" class="form-control" name="start_year" value="{{get_session.session_start_year|date:'Y-m-d'}}">
+                    <input type="hidden"  name="session_id"  value="{{ get_session.id }}">
+                </div>
+
+                <div class="form-group">
+                    <label>Session End Year </label>
+                    <input type="date" class="form-control" name="end_year" value="{{get_session.session_end_year|date:'Y-m-d'}}">
+                    <input type="hidden"  name="session_id"  value="{{ get_session.id }}">
+                </div> 
 
              
 
@@ -65,7 +72,7 @@
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary btn-block">Add Course </button>
+                  <button type="submit" class="btn btn-primary btn-block">Save Class </button>
                 </div>
               </form>
             </div>

@@ -1,6 +1,6 @@
 {% extends 'hod_template/base_templates.html' %}
 {% block page_title %}
- Edit Course| Course ID : {{course.id}}
+ Add Term
 {% endblock page_title %}
 {% block main_content %}
         <!-- Main content -->
@@ -14,7 +14,7 @@
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Edit Staff</h3>
+                <h3 class="card-title">Add Term</h3>
               </div>
 
               
@@ -35,38 +35,25 @@
                         
               <!-- /.card-header -->
               <!-- form start -->
-              <form role="form" action="/edit_course_save" method="post">
+              <form role="form" action="/add_term_save" method="post">
               {% csrf_token %}
                 <div class="card-body">
                   <div class="form-group">
-                    {% comment %} <label>Email address</label>
-                    <input type="email" class="form-control" name="email" placeholder="Enter email">
-                  </div>
+                   
                   <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" class="form-control" name="password" placeholder="Password">
+                    <label>Slug</label>
+                    <input type="text" class="form-control" name="term_slug" placeholder="Enter Slug" required>
                   </div>
 
                   <div class="form-group">
-                    <label>First Name</label>
-                    <input type="text" class="form-control" name="first_name" placeholder="First Name">
-                  </div> {% endcomment %}
-
-                  
-                  <div class="form-group">
-                    <label>Course Name</label>
-                    <input type="text" class="form-control" name="course" placeholder="Enter Course" value="{{course.course_name}}">
-                    <input type="hidden"  name="course_id"  value="{{course.id}}">
+                    <label>Term</label>
+                    <input type="text" class="form-control" name="term" placeholder="Enter Term" required>
                   </div>
-
-             
-
-               
                 
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary btn-block">Save Course </button>
+                  <button type="submit" class="btn btn-primary btn-block">Add Subject </button>
                 </div>
               </form>
             </div>
@@ -84,4 +71,4 @@
 
 {% endblock main_content %}
 
-{% comment %} 16:14 {% endcomment %}
+

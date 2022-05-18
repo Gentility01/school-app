@@ -1,6 +1,6 @@
 {% extends 'hod_template/base_templates.html' %}
 {% block page_title %}
-Manage Course
+Manage Term
 {% endblock page_title %}
 {% block main_content %}
         <!-- Main content -->
@@ -13,7 +13,7 @@ Manage Course
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Courses Details</h3>
+                <h3 class="card-title">Term Details</h3>
 
                 <div class="card-tools">
                   <div class="input-group input-group-sm" style="width: 150px;">
@@ -31,17 +31,22 @@ Manage Course
                   <thead>
                     <tr>
                       <th>ID</th>
-                      <th>Course Name</th>
-                      <th>Action</th>
+                      <th>Slug</th>
+                      <th> Term</th>
+                      <th> Action</th>
+                     
                        
                     </tr>
                   </thead>
-                  {% for course in courses %}
+                  {% for term in terms %}
                     <tbody>
                       <tr>
-                        <td>{{course.id }}</td>
-                        <td>{{course.course_name}}</td>
-                        <td> <a href="/edit_course/{{course.id}}" class="btn btn-success"> Edit</a></td>
+                        <td>{{forloop.counter }}</td>
+                        <td>{{term.term_slug }}</td>
+                        <td>{{term.terms}}</td>
+                        
+                        {% comment %} <td> <a href="/edit_subject/{{subject.id}}" class="btn btn-success"> Edit</a></td> {% endcomment %}
+                        <td> <a href="" class="btn btn-success"> Edit</a>  <a href="" class="btn btn-danger"> Delete</a></td>
                         
                        
                       </tr>

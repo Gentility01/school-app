@@ -1,3 +1,4 @@
+from django.urls import reverse
 from django.db import models
 from django.db.models import manager
 from django.db.models.enums import IntegerChoices
@@ -41,26 +42,47 @@ class Staff(models.Model):
 
 
 
-# COURSE MODEL
-class Course(models.Model):
+# Classes MODEL
+class Classes(models.Model):
     id             = models.AutoField(primary_key=True)   
-    course_name    = models.CharField( max_length=250) 
+    class_name    = models.CharField( max_length=250)
+    class_code    = models.CharField( max_length=50) 
     created_at     = models.DateTimeField( auto_now_add=True)
     updated_at     = models.DateTimeField( auto_now_add=True) 
     objects        = models.Manager() 
 
 
     def __str__(self):
-        return self.course_name
+        return self.class_name
+    
+    def get_students_url(self):
+        return reverse("manage_student_byclass", kwargs={"id": self.id})
+    
+    def get_subject_url(self):
+        return reverse("manage_subject_byclass", kwargs={"id":self.id})
+    
+  
 
-
+#TERMS
+class Term(models.Model):
+    id = models.AutoField(primary_key=True)
+    term_slug = models.SlugField()
+    terms = models.CharField( max_length=50, null=True)
+    objects = models.Manager()
+    
+    def __str__(self):
+        return self.terms
+    
+    def get_subject_term_url(self):
+        return reverse("manage_subject_byterm", kwargs={"id":self.id})
 
 # SUBJECT MODEL
 class Subject(models.Model):
     id             = models.AutoField(primary_key=True)   
     subject_name   = models.CharField( max_length=250) 
-    course_id      = models.ForeignKey(Course, on_delete=models.CASCADE, default=1)
+    class_id       = models.ForeignKey(Classes, on_delete=models.CASCADE, default=1)
     staff_id       = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    term_id        = models.ForeignKey(Term,  on_delete=models.CASCADE, default=1)
     created_at     = models.DateTimeField( auto_now_add=True)
     updated_at     = models.DateTimeField( auto_now_add=True) 
     objects        = models.Manager() 
@@ -79,13 +101,16 @@ class Student(models.Model):
     gender         = models.CharField( max_length=250)
     profile_pic    = models.FileField()
     address        = models.TextField()
-    courses_id     = models.ForeignKey(Course, on_delete=models.DO_NOTHING)
+    s_class        = models.ForeignKey(Classes, on_delete=models.DO_NOTHING)
     created_at     = models.DateTimeField( auto_now_add=True)
     updated_at     = models.DateTimeField( auto_now_add=True) 
     session_start  = models.DateField()
     session_end    = models.DateField()
     objects        = models.Manager() 
 
+    
+    
+    
     
 
 
@@ -116,6 +141,7 @@ class LeaveReportStudent(models.Model):
     student_id     = models.ForeignKey(Student, on_delete=models.CASCADE)  
     leave_date     = models.CharField(max_length=50)  
     leave_message  = models.TextField()
+    leave_status = models.IntegerField(default=0)
     created_at     = models.DateTimeField( auto_now_add=True)
     updated_at     = models.DateTimeField( auto_now_add=True)
     objects        = models.Manager() 
@@ -126,6 +152,7 @@ class LeaveReportStaff(models.Model):
     staff_id       = models.ForeignKey(Staff, on_delete=models.CASCADE)  
     leave_date     = models.CharField(max_length=50)  
     leave_message  = models.TextField()
+    leave_status   = models.IntegerField(default=0)
     created_at     = models.DateTimeField( auto_now_add=True)
     updated_at     = models.DateTimeField( auto_now_add=True)
     objects        = models.Manager() 
@@ -162,8 +189,7 @@ class NotificationStudent(models.Model):
     updated_at     = models.DateTimeField( auto_now_add=True)
     objects        = models.Manager() 
 
-
-
+    
 
 class NotificationStaff(models.Model):
     id             = models.AutoField(primary_key=True) 
@@ -173,6 +199,35 @@ class NotificationStaff(models.Model):
     updated_at     = models.DateTimeField( auto_now_add=True)
     objects        = models.Manager() 
 
+
+CHOICES = (
+        ('Exam','Exam'),
+        ('Test','Test'),
+        ('Assignment','Assignment'),
+    )
+
+class Scores(models.Model):
+    type_of_score      = models.CharField(choices=CHOICES, max_length=30)
+    score             = models.IntegerField()
+    term              = models.ForeignKey(Term, on_delete=models.CASCADE)
+    subject           = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    student            = models.ForeignKey(Student, on_delete=models.CASCADE)
+    student_class      = models.ForeignKey(Classes, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return f'{self.term}, {self.type_of_score} '
+    
+    
+class SessionYearModel(models.Model):
+    id = models.AutoField(primary_key=True)
+    session_start_year = models.DateField()
+    session_end_year = models.DateField()
+    term_id = models.ForeignKey(Term,  on_delete=models.CASCADE, default=1)
+    objects = models.Manager()
+    
+    
+   
+    
 
 
 # creating signals... when new User is created i will add new row in HOD, STAFF, STUDENT with its id  in admin =_id column 
@@ -194,9 +249,9 @@ def create_user_profile(sender, instance, created, **kwargs):
         
 
         if instance.user_type==3:
-            Student.objects.create(admin=instance, courses_id=Course.objects.get(id=1), session_start="2021-11-9", session_end="2022-1-1", address="", profile_pic="", gender="")  
+            Student.objects.create(admin=instance, class_id=Classes.objects.get(id=1), session_start="2021-11-9", session_end="2022-1-1", address="", profile_pic="", gender="")  
             #now calling the student.objects.create and  passing the admin=instance. here instance is the  CustomerUser
-            # now at courses_id(line 82) and also in Subject(line 62) we added default=1 to it(that means we are setting the default) then we set te default for course, start_session and end_session, address, profile_pic e.t.c in line 196
+            # now at class_id(line 82) and also in Subject(line 62) we added default=1 to it(that means we are setting the default) then we set te default for classss, start_session and end_session, address, profile_pic e.t.c in line 196
         
 
 # now @ reciever(post_save, sender=CustomUser)
